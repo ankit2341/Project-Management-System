@@ -1,0 +1,108 @@
+.login_bg{
+    width: 100%;
+    height: auto;
+    position: fixed;
+    z-index: -11;
+    top: 0;
+    left: 0;
+}
+.authform_div{
+    width: 30%;
+    height: auto;
+    padding: 20px;
+    border-radius: 10px;
+    margin: auto;
+}
+.logo_title{
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+.logo_title_img{
+    width: auto;
+    height: auto;
+}
+.logo_title_p{
+    font-size:larger;
+    text-transform: capitalize;
+    font-weight: bold;
+    color: #fff;
+}
+.form{
+    width: 100%;
+    height: 470px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    background: #f9f9f9;
+    border-radius: 15px;
+    padding: 60px 30px 50px 30px;
+}
+.form_p{
+    text-transform: capitalize;
+    font-size: larger;
+    padding-bottom: 20px;
+    color: #000;
+    text-align: center;
+}
+.loginbtn{
+    width: 50%;
+    border-radius: 5px;
+}
+
+@media screen and (max-width:1000px) {
+    .authform_div{
+        width: 50%;
+        height: auto;
+        padding: 20px;
+        border-radius: 10px;
+        margin: auto;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .login_bg{
+        width: 220%;
+        overflow-x: hidden;
+        height: auto;
+        position: fixed;
+        z-index: -11;
+        top: 0;
+        left: 0;
+    }
+    .authform_div{
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        border-radius: 10px;
+        margin: auto;
+    }
+    .logo_title{
+        width: 100%;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .logo_title_p{
+        font-size:larger;
+        text-transform: capitalize;
+        font-weight: normal;
+        padding-top: 10px;
+        color: #fff;
+    }
+    .form{
+        width: 100%;
+        height: 470px;
+        box-shadow: none;
+        background: #f9f9f9;
+        border-radius: 15px;
+        padding: 60px 30px 50px 30px;
+    }
+    .loginbtn{
+        width: 100%;
+        border-radius: 10px;
+    }    
+}
