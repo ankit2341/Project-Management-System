@@ -33,3 +33,23 @@ button {
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
+#parent_card{
+  display: none;
+}
+.dashboard_summary_div{
+  width: 90%;
+}
+
+@media screen and (max-width:500px) {
+      .projects_tableform{
+        display: none !important;
+      }
+      #parent_card{
+        display: block;
+      }
+      .dashboard_summary_div{
+        width: 95% !important;
+        border: 1px solid skyblue;
+        margin-bottom: 0px;
+      }
+}

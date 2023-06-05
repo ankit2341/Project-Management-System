@@ -3,6 +3,7 @@ import SideNavbar from "../Components/SideNavbar";
 import styles from "../Styles/Project.module.css";
 import Form from "react-bootstrap/Form";
 import ProjectTable from "../Components/Projects/ProjectTable";
+import ProjectCards from "../Components/Projects/ProjectCards";
 
 const Projects = () => {
   const [activePage, setActivePage] = useState(1);
@@ -27,12 +28,7 @@ const Projects = () => {
               placeholder="Type to search"
             />
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "right",
-                width: "100%",
-              }}
+              className={styles.sort_by_div}
             >
               <p style={{ paddingTop: "20px", paddingRight: "20px" }}>
                 Sort by
@@ -57,6 +53,7 @@ const Projects = () => {
 
           <div style={{ paddingTop: "30px" }}>
             <ProjectTable />
+            <ProjectCards data={[1,2,3,4,5,6,7,8,9,10]}/>
 
             <div title="pagination" className={styles.pagination}>
               <button

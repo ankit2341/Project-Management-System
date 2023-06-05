@@ -1,14 +1,13 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
-const handle=()=>{
 
-}
+const ProjectTable = ({data}) => {
 
-const ProjectTable = () => {
   return (
     <>
-      <table style={{ width: "100%" }}>
+      <table style={{ width: "100%" }} className="projects_tableform">
         <thead style={{ background: "lightblue" }}>
+          <tr>
           <th style={{ padding: "20px" }}>Project Name</th>
           <th>Reason</th>
           <th>Type</th>
@@ -19,6 +18,7 @@ const ProjectTable = () => {
           <th>Location</th>
           <th>Status</th>
           <th></th>
+          </tr>
         </thead>
         <tbody>
             {[1,2,3,4,5,6,7,8,9,10].map((el)=>{
