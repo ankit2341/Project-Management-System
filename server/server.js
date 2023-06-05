@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors({origin:"*"}));
 
 app.use("/users",userRouter);
-app.use("projects",projectRouter);
+app.use("/projects",projectRouter);
 
 app.get("/",async(req,res)=>{
     try{
