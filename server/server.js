@@ -1,11 +1,13 @@
 const {connection}=require("./config/db");
-
+const { userRouter } = require("./routes/user.route");
 const cors=require("cors");
 const express=require("express");
 
 const app=express();
 app.use(express.json());
 app.use(cors({origin:"*"}));
+
+app.use("/users",userRouter);
 
 app.get("/",async(req,res)=>{
     try{
