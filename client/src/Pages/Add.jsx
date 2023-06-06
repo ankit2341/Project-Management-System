@@ -78,7 +78,7 @@ const Add = () => {
         })
         .catch((err) => {
           console.log(err);
-          alert("Network error")
+          alert("Network error");
         });
     }
   };
@@ -273,6 +273,10 @@ const Add = () => {
       <SideNavbar />
       <img
         title="Logout"
+        onClick={() => {
+          navigate("/");
+          alert("Logout Success");
+        }}
         className={styles.logout_logo}
         src="./assets/Logout.svg"
         alt="logout"

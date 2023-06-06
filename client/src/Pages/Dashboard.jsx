@@ -4,10 +4,12 @@ import styles from "../Styles/Dashboard.module.css";
 import VerticalBarChart from "../Components/Dashboard/VerticalBarChart";
 import ScrollableBar from "../Components/Dashboard/ScrollableBar";
 import Spinner from "react-bootstrap/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [data, setData] = useState("");
-
+  const navigate=useNavigate();
+  
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}projects/details`)
       .then((res) => {
@@ -69,6 +71,10 @@ const Dashboard = () => {
         title="Logout"
         className={styles.logout_logo}
         src="./assets/Logout.svg"
+        onClick={() => {
+          navigate("/");
+          alert("Logout Success");
+        }}
         alt="logout"
       />
     </>

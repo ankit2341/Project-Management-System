@@ -4,12 +4,14 @@ import styles from "../Styles/Project.module.css";
 import Form from "react-bootstrap/Form";
 import ProjectTable from "../Components/Projects/ProjectTable";
 import ProjectCards from "../Components/Projects/ProjectCards";
+import { useNavigate } from "react-router-dom";
 
 const Projects = () => {
   const [activePage, setActivePage] = useState(1);
   const [sort, setSort] = useState("Priority");
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
+  const navigate=useNavigate();
 
   useEffect(() => {
     if (search === "") {
@@ -206,6 +208,10 @@ const Projects = () => {
         title="Logout"
         className={styles.logout_logo}
         src="./assets/Logout.svg"
+        onClick={() => {
+          navigate("/");
+          alert("Logout Success");
+        }}
         alt="logout"
       />
     </>

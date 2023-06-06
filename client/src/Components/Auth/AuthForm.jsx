@@ -11,22 +11,24 @@ const AuthForm = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const navigate=useNavigate()
-  // console.log(process.env.REACT_APP_API)
+  
   useEffect(() => {
     if (email === ""&&pass==="") {
-      setCheckValid(true);
+      setCheckValid(false);
     } 
-    else if(email===""||pass===""){
+    else if(email===""&&pass!==""){
       setCheckValid(false)
     }
     else {
-      setCheckValid(true);
+      setCheckValid(false);
     }
-  }, [email]);
+  }, [email,pass]);
 
   const handleLogin = () => {
     if (email === "" || pass === "") {
       setisCredentialsValid(false);
+      setCheckPassValid(false);
+      setCheckValid(false);
     } else {
       fetch(`${process.env.REACT_APP_API}users/login`, {
         method: "POST",
