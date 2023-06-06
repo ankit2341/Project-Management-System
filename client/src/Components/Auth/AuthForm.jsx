@@ -2,27 +2,27 @@ import Form from "react-bootstrap/Form";
 import React, { useEffect, useState } from "react";
 import styles from "../../Styles/Auth.module.css";
 import { Button } from "react-bootstrap";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Spinner from "react-bootstrap/Spinner";
 
 const AuthForm = () => {
   const [checkValid, setCheckValid] = useState(true);
-  const [checkPassvalid,setCheckPassValid]=useState(true);
+  const [checkPassvalid, setCheckPassValid] = useState(true);
   const [isCredentialsValid, setisCredentialsValid] = useState(true);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const navigate=useNavigate()
-  
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
-    if (email === ""&&pass==="") {
+    if (email === "" && pass === "") {
       setCheckValid(false);
-    } 
-    else if(email===""&&pass!==""){
-      setCheckValid(false)
-    }
-    else {
+    } else if (email !== "" || pass === "") {
+      setCheckValid(true);
+    } else {
       setCheckValid(false);
     }
-  }, [email,pass]);
+  }, [email, pass]);
 
   const handleLogin = () => {
     if (email === "" || pass === "") {
@@ -30,6 +30,7 @@ const AuthForm = () => {
       setCheckPassValid(false);
       setCheckValid(false);
     } else {
+      setLoading(true);
       fetch(`${process.env.REACT_APP_API}users/login`, {
         method: "POST",
         headers: {
@@ -44,21 +45,23 @@ const AuthForm = () => {
           return res.json();
         })
         .then((res) => {
-          console.log(res)
           if (res.Message == "Password must be of 8 characters") {
             setisCredentialsValid(false);
             setCheckPassValid(false);
-            console.log(res)
+            setLoading(false);
           } else if (res.Message == "Invalid User") {
             setisCredentialsValid(false);
+            setLoading(false);
           } else if (res.Message == "Valid User") {
             setisCredentialsValid(true);
             alert("Login Success");
-            navigate("/dashboard")            
+            navigate("/dashboard");
+            setLoading(false);
           }
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false);
         });
     }
   };
@@ -111,13 +114,25 @@ const AuthForm = () => {
             paddingTop: "20px",
           }}
         >
-          <Button
-            variant="primary"
-            onClick={handleLogin}
-            className={styles.loginbtn}
-          >
-            Login
-          </Button>
+          {!loading ? (
+            <Button
+              variant="primary"
+              onClick={handleLogin}
+              className={styles.loginbtn}
+            >
+              Login
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              disabled
+              className={styles.loginbtn}
+            >
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </Button>
+          )}
         </div>
         <p style={{ color: "red", paddingTop: "20px", textAlign: "center" }}>
           {isCredentialsValid ? "" : "Invalid Credentials"}
