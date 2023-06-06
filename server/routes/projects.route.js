@@ -8,7 +8,9 @@ projectRouter.get("/", projectController.getprojects);
 
 projectRouter.post("/addproject", projectController.addProject);
 
-projectRouter.patch("/update", projectController.update);
+projectRouter.patch("/update/:id", projectController.update);
+
+projectRouter.get("/details",projectController.dashboard);
 
 module.exports = {
   projectRouter,

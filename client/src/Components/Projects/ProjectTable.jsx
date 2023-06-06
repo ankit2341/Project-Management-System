@@ -1,7 +1,40 @@
-import React from "react";
-import Table from "react-bootstrap/Table";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProjectTable = ({data}) => {
+  const [status,setStatus]=useState("");
+  const navigate=useNavigate();
+
+  const handleStatus=(statusvalue,id)=>{
+    const payload = {
+      Status: `${statusvalue}`
+    };
+
+    fetch(`${process.env.REACT_APP_API}projects/update/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.Message == "Error in request body") {
+          alert("Server error");
+        } else if (res.Message == "Project updated successfully") {
+          alert("Status updated successfully");
+          window.location.reload(false);
+        } else {
+          alert("Server error");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Network error")
+      });
+  }
 
   return (
     <>
@@ -11,7 +44,6 @@ const ProjectTable = ({data}) => {
           <th style={{ padding: "20px" }}>Project Name</th>
           <th>Reason</th>
           <th>Type</th>
-          <th>Division</th>
           <th>Category</th>
           <th>Priority</th>
           <th>Dept.</th>
@@ -21,18 +53,17 @@ const ProjectTable = ({data}) => {
           </tr>
         </thead>
         <tbody>
-            {[1,2,3,4,5,6,7,8,9,10].map((el)=>{
+            {data.map((el)=>{
                 return(
-                    <tr style={{ borderBottom: "1px solid gray" }}>
-                    <td style={{ padding: "18px" }}>Project Name</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <tr key={el._id} style={{ borderBottom: "1px solid gray" }}>
+                    <td style={{ padding: "18px" }}>{el.Projectname}</td>
+                    <td>{el.Reason}</td>
+                    <td>{el.Type}</td>
+                    <td>{el.Category}</td>
+                    <td>{el.Priority}</td>
+                    <td>{el.Department}</td>
+                    <td>{el.Location}</td>
+                    <td>{el.Status}</td>
                     <td style={{justifyContent:"center",display:"flex",paddingTop:"18px",paddingBottom:"18px"}}>
                       <button
                         style={{
@@ -45,6 +76,7 @@ const ProjectTable = ({data}) => {
                           paddingLeft: "10px",
                           paddingRight: "10px",
                         }}
+                        onClick={()=>{handleStatus("Running",el._id)}}
                       >
                         Start
                       </button>
@@ -57,6 +89,7 @@ const ProjectTable = ({data}) => {
                           paddingRight: "10px",
                           marginLeft:"10px"
                         }}
+                        onClick={()=>{handleStatus("Closed",el._id)}}
                       >
                         Close
                       </button>
@@ -69,6 +102,7 @@ const ProjectTable = ({data}) => {
                           paddingLeft: "10px",
                           paddingRight: "10px",
                         }}
+                        onClick={()=>{handleStatus("Cancelled",el._id)}}
                       >
                         Cancel
                       </button>

@@ -36,7 +36,9 @@ const SideNavbar = () => {
               : "./assets/Dashboard.svg"
           }
           style={
-            dashboard ? { transform: "scale(1.3)" } : { transform: "scale(1)" }
+            dashboard
+              ? { transform: "scale(1.3)", cursor: "pointer" }
+              : { transform: "scale(1)", cursor: "pointer" }
           }
           alt="dashboard"
           onClick={() => {
@@ -50,7 +52,11 @@ const SideNavbar = () => {
               ? "./assets/Project-list-active.svg"
               : "./assets/Project-list.svg"
           }
-          style={list ? { transform: "scale(1.3)" } : { transform: "scale(1)" }}
+          style={
+            list
+              ? { transform: "scale(1.3)", cursor: "pointer" }
+              : { transform: "scale(1)", cursor: "pointer" }
+          }
           alt="list"
           onClick={() => {
             navigate("/projects");
@@ -63,7 +69,11 @@ const SideNavbar = () => {
               ? "./assets/create-project-active.svg"
               : "./assets/create-project.svg"
           }
-          style={add ? { transform: "scale(1.3)" } : { transform: "scale(1)" }}
+          style={
+            add
+              ? { transform: "scale(1.3)", cursor: "pointer" }
+              : { transform: "scale(1)", cursor: "pointer" }
+          }
           alt="add"
           onClick={() => {
             navigate("/add");

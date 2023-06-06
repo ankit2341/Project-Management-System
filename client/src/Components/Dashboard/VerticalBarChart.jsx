@@ -77,7 +77,34 @@ const data = {
   ],
 };
 
-const VerticalBarChart = () => {
+const VerticalBarChart = ({open,closed}) => {
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Open",
+        data: open.map((el) => {
+          return el;
+        }),
+        backgroundColor: "blue",
+        barPercentage: 1,
+        categoryPercentage: 0.25,
+        textColor: "#000",
+        
+      },
+      {
+        label: "Closed",
+        data: closed.map((el) => {
+          return el;
+        }),
+        backgroundColor: "green",
+        barPercentage: 1,
+        categoryPercentage: 0.25,
+      },
+    ],
+  };
+
   return (
     <Bar
       options={options}

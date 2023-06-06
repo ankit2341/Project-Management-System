@@ -29,6 +29,13 @@ const ScrollableBar = ({ data }) => {
     "Closure Delay",
     "Cancelled",
   ];
+  const output=[
+    "total",
+    "closed",
+    "completed",
+    "delay",
+    "cancelled"
+  ]
 
   return (
     <>

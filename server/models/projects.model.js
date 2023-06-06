@@ -2,8 +2,8 @@ const mongoose=require("mongoose");
 
 const projectSchema=mongoose.Schema({
     Projectname : String,
-    Startdate : Date,
-    EndDate : Date,
+    Startdate : String,
+    EndDate : String,
     Reason:String,
     Type:String,
     Category:String,
