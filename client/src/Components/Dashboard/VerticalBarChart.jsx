@@ -23,7 +23,7 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "top",
+      position: "bottom",
     },
     title: {
       display: false,
@@ -43,7 +43,8 @@ export const options = {
             font: {
                 size: 15,
                 color:"#000" //this change the font size
-            }
+            },
+            stepSize: 1
         }
     }
 }
@@ -78,18 +79,18 @@ const data = {
 };
 
 const VerticalBarChart = ({open,closed}) => {
-
+  
   const data = {
     labels,
     datasets: [
       {
-        label: "Open",
+        label: "Total",
         data: open.map((el) => {
           return el;
         }),
-        backgroundColor: "blue",
-        barPercentage: 1,
-        categoryPercentage: 0.25,
+        backgroundColor: "#04559eff",
+        barPercentage: 0.3 ,
+        categoryPercentage: 0.7,
         textColor: "#000",
         
       },
@@ -99,8 +100,8 @@ const VerticalBarChart = ({open,closed}) => {
           return el;
         }),
         backgroundColor: "green",
-        barPercentage: 1,
-        categoryPercentage: 0.25,
+        barPercentage: 0.3,
+        categoryPercentage: 0.7,
       },
     ],
   };

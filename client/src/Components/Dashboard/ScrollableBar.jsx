@@ -30,11 +30,11 @@ const ScrollableBar = ({ data }) => {
     "Cancelled",
   ];
   const output=[
-    "total",
-    "closed",
-    "completed",
-    "delay",
-    "cancelled"
+    "Total",
+    "Closed",
+    "Running",
+    "closeureda;ay",
+    "Cancelled"
   ]
 
   return (
@@ -43,6 +43,7 @@ const ScrollableBar = ({ data }) => {
       {titles.map((el, i) => {
         return (
           <div
+            key={el}
             className="dashboard_summary_div"
             style={{
               boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",

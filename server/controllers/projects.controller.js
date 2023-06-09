@@ -127,81 +127,59 @@ const projectController = {
   },
   dashboard: async (req, res) => {
     try {
-      const total = await projectModel.count();
-      const completed = await projectModel.count({ Status: "Running" });
-      const closed = await projectModel.count({ Status: "Closed" });
-      const cancelled = await projectModel.count({ Status: "Cancelled" });
-      const registered = await projectModel.count({ Status: "Registered" });
-      const Strategyo = await projectModel.count({
-        Department: "Strategy",
-        Status: "Running",
-      });
-      const Financeo = await projectModel.count({
-        Department: "Finance",
-        Status: "Running",
-      });
-      const Qualityo = await projectModel.count({
-        Department: "Quality",
-        Status: "Running",
-      });
-      const Manufacturingo = await projectModel.count({
-        Department: "Manufacturing",
-        Status: "Running",
-      });
-      const STOo = await projectModel.count({
-        Department: "STO",
-        Status: "Running",
-      });
-      const HRo = await projectModel.count({
-        Department: "HR",
-        Status: "Running",
-      });
+      const data = await projectModel.aggregate([
+        {
+          $group: {
+            _id: "$Status",
+            count: { $count: {} },
+          },
+        },
+      ]);
 
-      const Strategyc = await projectModel.count({
-        Department: "Strategy",
-        Status: "Closed",
-      });
-      const Financec = await projectModel.count({
-        Department: "Finance",
-        Status: "Closed",
-      });
-      const Qualityc = await projectModel.count({
-        Department: "Quality",
-        Status: "Closed",
-      });
-      const Manufacturingc = await projectModel.count({
-        Department: "Manufacturing",
-        Status: "Closed",
-      });
-      const STOc = await projectModel.count({
-        Department: "STO",
-        Status: "Closed",
-      });
-      const HRc = await projectModel.count({
-        Department: "HR",
-        Status: "Closed",
-      });
-      const delay=0;
+      const departmentData = await projectModel.aggregate([
+        {
+          $group: {
+            _id: {
+              status: "$Status",
+              department: "$Department",
+            },
+            statusCount: { $sum: 1 },
+          },
+        },
+        {
+          $group: {
+            _id: "$_id.department",
+            allstatus: {
+              $push: {
+                status: "$_id.status",
+                count: "$statusCount",
+              },
+            },
+            total: { $sum: "$statusCount" },
+          },
+        },
+      ]);
 
-      const details = {
-        scrollbar:[total,closed,completed,delay,cancelled],
-        total: total,
-        completed: completed,
-        closed: closed,
-        cancelled: cancelled,
-        registered: registered,
-        delay: 0,
-        chartdata: [Strategyo, Financeo, Qualityo, Manufacturingo, STOo, HRo],
-        chartdataclosed: [
-          Strategyc,
-          Financec,
-          Qualityc,
-          Manufacturingc,
-          STOc,
-          HRc,
-        ],
-      };
-      res.status(200).send(details);
+      const closureDelay = await projectModel.aggregate([
+        {
+          $group: {
+            _id: "$EndDate",
+            count: { $count: {} },
+          },
+        },
+      ]);
+
+      const total=await projectModel.count();
+
+      res
+        .status(200)
+        .send({
+          total:total,
+          scrollbarData: data,
+          departmentData: departmentData,
+          closureDelay: closureDelay,
+        });
+      
     } catch (err) {
       res.status(404).send({
         Success: "false",

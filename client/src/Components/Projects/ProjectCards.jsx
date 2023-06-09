@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../../Styles/Card.module.css";
+import { toast } from "react-toastify";
 
 const ProjectCards = ({ data }) => {
 
@@ -20,15 +21,15 @@ const ProjectCards = ({ data }) => {
       })
       .then((res) => {
        if (res.Message == "Project updated successfully") {
-          alert("Status updated successfully");
+          toast.info("Status updated successfully");
           window.location.reload(false);
         } else {
-          alert("Server error");
+          toast.info("Server error");
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("Network error");
+        toast.info("Network error");
       });
   };
 

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ProjectTable = ({data}) => {
-  const [status,setStatus]=useState("");
-  const navigate=useNavigate();
 
   const handleStatus=(statusvalue,id)=>{
     const payload = {
@@ -22,17 +20,17 @@ const ProjectTable = ({data}) => {
       })
       .then((res) => {
         if (res.Message == "Error in request body") {
-          alert("Server error");
+          toast.info("Server error");
         } else if (res.Message == "Project updated successfully") {
-          alert("Status updated successfully");
+          toast.info("Status updated successfully");
           window.location.reload(false);
         } else {
-          alert("Server error");
+          toast.info("Server error");
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("Network error")
+        toast.info("Network error")
       });
   }
 

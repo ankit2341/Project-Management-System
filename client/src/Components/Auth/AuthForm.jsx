@@ -4,6 +4,7 @@ import styles from "../../Styles/Auth.module.css";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
+import { toast } from "react-toastify";
 
 const AuthForm = () => {
   const [checkValid, setCheckValid] = useState(true);
@@ -54,7 +55,7 @@ const AuthForm = () => {
             setLoading(false);
           } else if (res.Message == "Valid User") {
             setisCredentialsValid(true);
-            alert("Login Success");
+            toast.info("Login Success");
             navigate("/dashboard");
             setLoading(false);
           }

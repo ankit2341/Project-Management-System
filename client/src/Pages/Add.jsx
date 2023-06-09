@@ -6,6 +6,8 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import SideNavbar from "../Components/SideNavbar";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Spinner } from "react-bootstrap";
 
 const Add = () => {
   const [name, setname] = useState("");
@@ -18,6 +20,7 @@ const Add = () => {
   const [startdate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [location, setLocation] = useState("Mumbai");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,8 +44,9 @@ const Add = () => {
 
   const handleAddProject = () => {
     if (name === "" || startdate === "" || endDate === "") {
-      alert("Please fill all fields !");
+      toast.info("Please fill all fields !");
     } else {
+      setLoading(true);
       const payload = {
         Projectname: name,
         Startdate: startdate,
@@ -67,18 +71,20 @@ const Add = () => {
           return res.json();
         })
         .then((res) => {
+          setLoading(false);
           if (res.Message == "Error in request body") {
-            alert("Server error");
+            toast.info("Server error");
           } else if (res.Message == "New project added successfully") {
-            alert("New project added successfully");
+            toast.info("New project added successfully");
             navigate("/projects");
           } else {
-            alert("Server error");
+            toast.info("Server error");
           }
         })
         .catch((err) => {
+          setLoading(false);
           console.log(err);
-          alert("Network error");
+          toast.info("Network error");
         });
     }
   };
@@ -90,7 +96,20 @@ const Add = () => {
         className={styles.header_bg}
         alt="header_bg"
       />
-      <p className={styles.header_title}>Add Projects</p>
+      <p className={styles.header_title}>
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="15"
+            height="15"
+            fill="#fff"
+            viewBox="0 0 320 512"
+          >
+            <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+          </svg>
+        </span>{" "}
+        Create Project
+      </p>
       <div className={styles.parent_add_div}>
         <img src="./assets/Logo.svg" className={styles.logo} alt="logo" />
         <div className={styles.parentform}>
@@ -117,12 +136,28 @@ const Add = () => {
                 controlId="formGridPassword"
                 className={styles.save_project_btn}
               >
-                <Button
-                  onClick={handleAddProject}
-                  style={{ paddingLeft: "50px", paddingRight: "50px" }}
-                >
-                  Save Project{" "}
-                </Button>
+                {loading ? (
+                  <Button
+                    disabled
+                    style={{ paddingLeft: "50px", paddingRight: "50px",background:"#1378d4ff" }}
+                  >
+                    <Spinner
+                      size="sm"
+                      animation="border"
+                      variant="light"
+                      role="status"
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleAddProject}
+                    style={{ paddingLeft: "50px", paddingRight: "50px",background:"#1378d4ff" }}
+                  >
+                    Save Project{" "}
+                  </Button>
+                )}
               </Form.Group>
             </Row>
 
@@ -225,7 +260,12 @@ const Add = () => {
                   }}
                   type="date"
                   id="datefield"
-                ></Form.Control>
+                  isInvalid={startdate !== "" ? false : true}
+                  placeholder="Enter project name"
+                />
+                <Form.Control.Feedback style={{ color: "red" }} type="invalid">
+                  Start date is Required.
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group as={Col}>
@@ -237,7 +277,12 @@ const Add = () => {
                   }}
                   type="date"
                   id="enddatefield"
-                ></Form.Control>
+                  isInvalid={endDate !== "" ? false : true}
+                  placeholder="Enter project name"
+                />
+                <Form.Control.Feedback style={{ color: "red" }} type="invalid">
+                  Start date is Required.
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridState">
