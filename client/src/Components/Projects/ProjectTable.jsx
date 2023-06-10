@@ -65,7 +65,7 @@ const ProjectTable = ({data}) => {
                     <td style={{justifyContent:"center",display:"flex",paddingTop:"18px",paddingBottom:"18px"}}>
                       <button
                         style={{
-                          background: "blue",
+                          background: "#1378d4ff",
                           color: "white",
                           borderRadius: "15px",
                           border: "none",
@@ -81,7 +81,7 @@ const ProjectTable = ({data}) => {
                       <button
                         style={{
                           borderRadius: "15px",
-                          border: "1px solid blue",
+                          border: "1px solid #1378d4ff",
                           height: "30px",
                           paddingLeft: "10px",
                           paddingRight: "10px",
@@ -94,7 +94,7 @@ const ProjectTable = ({data}) => {
                       <button
                         style={{
                           borderRadius: "15px",
-                          border: "1px solid blue",
+                          border: "1px solid #1378d4ff",
                           marginLeft:"10px",
                           height: "30px",
                           paddingLeft: "10px",
