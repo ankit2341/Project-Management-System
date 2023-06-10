@@ -319,8 +319,9 @@ const Add = () => {
       <img
         title="Logout"
         onClick={() => {
+          localStorage.removeItem("token");
           navigate("/");
-          alert("Logout Success");
+          toast.info("Logout Success");
         }}
         className={styles.logout_logo}
         src="./assets/Logout.svg"

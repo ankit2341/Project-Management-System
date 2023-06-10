@@ -4,11 +4,16 @@
   box-sizing: border-box;
 }
 input {
+  border: 0.5px solid #808080 !important;
+}
+select{
   border: 0.5px solid gray !important;
 }
-/* select{
-  border: 0.5px solid gray !important;
-} */
+.form-control.is-valid,
+.form-control.is-invalid {
+    background-image: none !important;
+    padding-right: inherit;
+}
 textarea {
   border: 0.5px solid gray !important;
   resize: none !important;

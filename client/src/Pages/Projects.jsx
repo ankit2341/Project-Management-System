@@ -136,8 +136,9 @@ const Projects = () => {
           className={styles.logout_logo}
           src="./assets/Logout.svg"
           onClick={() => {
+            localStorage.removeItem("token");
             navigate("/");
-            alert("Logout Success");
+            toast.info("Logout Success");
           }}
           alt="logout"
         />

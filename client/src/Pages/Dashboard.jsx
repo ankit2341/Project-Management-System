@@ -5,6 +5,7 @@ import VerticalBarChart from "../Components/Dashboard/VerticalBarChart";
 import ScrollableBar from "../Components/Dashboard/ScrollableBar";
 import Spinner from "react-bootstrap/Spinner";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [data, setData] = useState("");
@@ -52,11 +53,18 @@ const Dashboard = () => {
         today = yyyy + "-" + mm + "-" + dd;
 
         for (let i = 0; i < res.closureDelay.length; i++) {
-          const d1 = Date.parse(`${res.closureDelay[i]._id}`);
-          const d2 = Date.parse(`${today}`);
+          if (res.closureDelay[i]._id === "Running") {
+            for (let j = 0; j < res.closureDelay[i].allenddates.length; j++) {
+            const d1 = Date.parse(
+              `${res.closureDelay[i].allenddates[j].EndDate}`
+            );
+            const d2 = Date.parse(`${today}`);
 
-          if (d1 < d2) {
-            closuredelayCount++;
+            if (d1 < d2) {
+              closuredelayCount =
+                closuredelayCount + res.closureDelay[i].allenddates[j].count;
+            }
+          }
           }
         }
         const scrolldata = [
@@ -80,7 +88,7 @@ const Dashboard = () => {
         let stoo = 0;
         let hrc = 0;
         let hro = 0;
-  
+
         for (let i = 0; i < res.departmentData.length; i++) {
           if (res.departmentData[i]._id === "Strategy") {
             stro = stro + res.departmentData[i].total;
@@ -89,35 +97,35 @@ const Dashboard = () => {
                 strc = strc + res.departmentData[i].allstatus[j].count;
               }
             }
-          } else if (res.departmentData[i]._id  === "Finance") {
+          } else if (res.departmentData[i]._id === "Finance") {
             fino = fino + res.departmentData[i].total;
             for (let j = 0; j < res.departmentData[i].allstatus.length; j++) {
               if (res.departmentData[i].allstatus[j].status === "Closed") {
                 finc = finc + res.departmentData[i].allstatus[j].count;
               }
             }
-          } else if (res.departmentData[i]._id  === "Quality") {
+          } else if (res.departmentData[i]._id === "Quality") {
             qtyo = qtyo + res.departmentData[i].total;
             for (let j = 0; j < res.departmentData[i].allstatus.length; j++) {
               if (res.departmentData[i].allstatus[j].status === "Closed") {
                 qtyc = qtyc + res.departmentData[i].allstatus[j].count;
               }
             }
-          } else if (res.departmentData[i]._id  === "Manufacturing") {
+          } else if (res.departmentData[i]._id === "Manufacturing") {
             mano = mano + res.departmentData[i].total;
             for (let j = 0; j < res.departmentData[i].allstatus.length; j++) {
               if (res.departmentData[i].allstatus[j].status === "Closed") {
                 manc = manc + res.departmentData[i].allstatus[j].count;
               }
             }
-          } else if (res.departmentData[i]._id  === "STO") {
+          } else if (res.departmentData[i]._id === "STO") {
             stoo = stoo + res.departmentData[i].total;
             for (let j = 0; j < res.departmentData[i].allstatus.length; j++) {
               if (res.departmentData[i].allstatus[j].status === "Closed") {
                 stoc = stoc + res.departmentData[i].allstatus[j].count;
               }
             }
-          } else if (res.departmentData[i]._id  === "HR") {
+          } else if (res.departmentData[i]._id === "HR") {
             hro = hro + res.departmentData[i].total;
             for (let j = 0; j < res.departmentData[i].allstatus.length; j++) {
               if (res.departmentData[i].allstatus[j].status === "Closed") {
@@ -127,9 +135,8 @@ const Dashboard = () => {
           }
         }
 
-        
-        setVBChartTotal([stro,fino,qtyo,mano,stoo,hro]);
-        setVBChartClosed([strc,finc,qtyc,manc,strc,hrc]);
+        setVBChartTotal([stro, fino, qtyo, mano, stoo, hro]);
+        setVBChartClosed([strc, finc, qtyc, manc, strc, hrc]);
       })
       .catch((err) => {
         console.log(err);
@@ -196,8 +203,9 @@ const Dashboard = () => {
         className={styles.logout_logo}
         src="./assets/Logout.svg"
         onClick={() => {
+          localStorage.removeItem("token");
           navigate("/");
-          alert("Logout Success");
+          toast.info("Logout Success");
         }}
         alt="logout"
       />

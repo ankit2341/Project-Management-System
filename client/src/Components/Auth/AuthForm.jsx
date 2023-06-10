@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 import React, { useEffect, useState } from "react";
 import styles from "../../Styles/Auth.module.css";
-import { Button } from "react-bootstrap";
+import { Button, InputGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import { toast } from "react-toastify";
@@ -12,6 +12,7 @@ const AuthForm = () => {
   const [isCredentialsValid, setisCredentialsValid] = useState(true);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ const AuthForm = () => {
   }, [email, pass]);
 
   const handleLogin = () => {
-    if (email === "" || pass === "") {
+    if (email === "" || pass === "" || pass.length < 8) {
       setisCredentialsValid(false);
       setCheckPassValid(false);
       setCheckValid(false);
@@ -56,6 +57,7 @@ const AuthForm = () => {
           } else if (res.Message == "Valid User") {
             setisCredentialsValid(true);
             toast.info("Login Success");
+            localStorage.setItem("token", JSON.stringify(res.token));
             navigate("/dashboard");
             setLoading(false);
           }
@@ -93,18 +95,40 @@ const AuthForm = () => {
         </Form.Group>
         <Form.Group className="mb-3" controlId="formGroupPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control
-            value={pass}
-            onChange={(e) => {
-              setPass(e.target.value);
-            }}
-            isInvalid={!checkPassvalid ? true : false}
-            type="password"
-            placeholder="Password"
-          />
-          <Form.Control.Feedback style={{ color: "red" }} type="invalid">
-            Password must be of 8 characters.
-          </Form.Control.Feedback>
+          <InputGroup className="mb-3">
+            <Form.Control
+              value={pass}
+              style={{
+                backgroundImage:
+                  "image-url('./assets/hide-password.svg') !important",
+              }}
+              onChange={(e) => {
+                setPass(e.target.value);
+              }}
+              isInvalid={!checkPassvalid ? true : false}
+              type={showPass ? "text" : "password"}
+              placeholder="Password"
+            />
+            <img
+              style={{
+                borderLeft: "none !important",
+                borderTop: "1px solid gray",
+                borderRight: "1px solid gray",
+                borderBottom: "1px solid gray",
+                background: "#fff",
+                cursor: "pointer",
+              }}
+              title="show password"
+              src="./assets/hide-password.svg"
+              alt="show"
+              onClick={() => {
+                setShowPass(!showPass);
+              }}
+            />
+            <Form.Control.Feedback style={{ color: "red" }} type="invalid">
+              Password must be of 8 characters.
+            </Form.Control.Feedback>
+          </InputGroup>
         </Form.Group>
         <div
           style={{
@@ -118,17 +142,14 @@ const AuthForm = () => {
           {!loading ? (
             <Button
               variant="primary"
+              style={{ background: "#1378d4ff" }}
               onClick={handleLogin}
               className={styles.loginbtn}
             >
               Login
             </Button>
           ) : (
-            <Button
-              variant="primary"
-              disabled
-              className={styles.loginbtn}
-            >
+            <Button variant="primary" disabled className={styles.loginbtn}>
               <Spinner animation="border" role="status">
                 <span className="visually-hidden">Loading...</span>
               </Spinner>

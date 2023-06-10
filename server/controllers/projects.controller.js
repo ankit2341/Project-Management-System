@@ -163,8 +163,22 @@ const projectController = {
       const closureDelay = await projectModel.aggregate([
         {
           $group: {
-            _id: "$EndDate",
-            count: { $count: {} },
+            _id: {
+              status: "$Status",
+              EndDate: "$EndDate",
+            },
+            statusCount: { $sum: 1 },
+          },
+        },
+        {
+          $group: {
+            _id: "$_id.status",
+            allenddates: {
+              $push: {
+                EndDate: "$_id.EndDate",
+                count: "$statusCount",
+              },
+            },
           },
         },
       ]);
